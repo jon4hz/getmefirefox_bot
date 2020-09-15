@@ -5,10 +5,6 @@
 # Desc:     Telegram BOT, which sends a random dog image or video
 #
 ###################################################################################################
-#
-# Version 2 - 28.01.2020:
-# - Add Inline support
-###################################################################################################
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler, MessageHandler, Filters 
 from telegram import KeyboardButton, ReplyKeyboardMarkup, ChatAction, InlineQueryResultArticle, ParseMode, InputMessageContent
 from telegram.utils.helpers import escape_markdown
