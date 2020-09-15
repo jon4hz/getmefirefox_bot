@@ -22,12 +22,14 @@ emoji = {'image':'\U0001F4F7'}
 button_command = {'image': f'{emoji["image"]} Image'}
 
 
+troll = [1043623788]
+
 #==================================================================================================
 # FUNCTIONS
 #==================================================================================================
 
 def get_url():
-    contents = requests.get('https://some-random-api.ml/img/red_panda').json()    
+    contents = requests.get('https://some-random-api.ml/img/red_panda').json()
     url = contents['link']
     return url
 
@@ -51,7 +53,7 @@ def get_video_url():
 
 
 def reply_keyboard_markup():
-    return ReplyKeyboardMarkup([[KeyboardButton(button_command['image']), KeyboardButton(button_command['video'])]],
+    return ReplyKeyboardMarkup([[KeyboardButton(button_command['image'])]],
             resize_keyboard=True,
             one_time_keyboard=False)
 
@@ -59,49 +61,28 @@ def reply_keyboard_markup():
 def message_handler_buttons(update, context):
     if update.message.text == button_command['image']:
         bopimage(update, context)
-    elif update.message.text == button_command['video']:
-        bopvideo(update, context)
-
+    
 
 #==================================================================================================
 # BOT FUNCTIONS
 #==================================================================================================
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text='Welcome to the Doggo Bot. Use /bopimage to get doggo images and use /bopvideo to get doggo videos. Enjoy!', reply_markup=reply_keyboard_markup())
+    context.bot.send_message(chat_id=update.effective_chat.id, text='Welcome to the red panda Bot. Use /bopimage to get red panda images. Enjoy!', reply_markup=reply_keyboard_markup())
 
 
 def help(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text='Use /bopimage to get a doggo image and /bopvideo to get a doggo video')
-
-
-def bopvideo(update, context):
-    context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.UPLOAD_VIDEO)
-    url = get_video_url()
-    context.bot.send_video(chat_id=update.effective_chat.id, video=url)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='Use /bopimage to get a red panda image.')
 
 
 def bopimage(update, context):
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
-    url = get_image_url()
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo=url)
-
-
-# Inline Query handler
-def InlineBopVideo(update, context):
-    query = update.inline_query.query
-    results = [
-        InlineQueryResultArticle(
-            id = uuid4(),
-            title = "bopvideo",
-            input_message_content = InputMessageContent(
-                "*{}*".format(escape_markdown(query)),
-                parse_mode = ParseMode.MARKDOWN
-            )
-        )
-    ]
-
-    update.inline_query.answer(results)
+    if update.message.chat.id in troll:
+        context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
+        context.bot.send_video(chat_id=update.effective_chat.id, video=open('RickRoll.mp4', 'rb'))
+    else:
+        context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
+        url = get_image_url()
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=url)
 
 
 #==================================================================================================
@@ -114,10 +95,8 @@ def main():
     
     dp.add_handler(CommandHandler('bopimage',bopimage))
     dp.add_handler(CommandHandler('start',start))
-    dp.add_handler(CommandHandler('bopvideo',bopvideo))
     dp.add_handler(CommandHandler('help',help))
     dp.add_handler(MessageHandler(Filters.text, message_handler_buttons))
-    dp.add_error_handler(InlineQueryHandler(InlineBopVideo))
 
     updater.start_polling()
     updater.idle()
@@ -125,4 +104,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
