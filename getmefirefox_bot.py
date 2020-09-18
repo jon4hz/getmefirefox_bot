@@ -17,6 +17,7 @@ import re
 
 with open('token.txt') as f:
     TOKEN = f.read()
+    TOKEN = TOKEN.replace("\n","")
 
 emoji = {'image':'\U0001F4F7'}
 button_command = {'image': f'{emoji["image"]} Image'}
