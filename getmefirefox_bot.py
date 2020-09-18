@@ -76,13 +76,9 @@ def help(update, context):
 
 
 def bopimage(update, context):
-    if update.message.chat.id in troll:
-        context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
-        context.bot.send_video(chat_id=update.effective_chat.id, video=open('RickRoll.mp4', 'rb'))
-    else:
-        context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
-        url = get_image_url()
-        context.bot.send_photo(chat_id=update.effective_chat.id, photo=url)
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
+    url = get_image_url()
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=url)
 
 
 #==================================================================================================
