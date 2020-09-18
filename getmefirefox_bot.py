@@ -22,7 +22,6 @@ emoji = {'image':'\U0001F4F7'}
 button_command = {'image': f'{emoji["image"]} Image'}
 
 
-troll = [1043623788]
 
 #==================================================================================================
 # FUNCTIONS
@@ -76,9 +75,9 @@ def help(update, context):
 
 
 def bopimage(update, context):
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
-    url = get_image_url()
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo=url)
+        context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
+        url = get_image_url()
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=url)
 
 
 #==================================================================================================
